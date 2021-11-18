@@ -1,0 +1,260 @@
+﻿<Window x:Class="FirstWpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FirstWpfApp"
+        mc:Ignorable="d"
+        Title="The Gold Ratio" Height="720" Width="1280" d:DataContext="{d:DesignInstance }">
+    <Window.Resources>
+        <Style x:Key="MyButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                                BorderThickness="0.5"
+                                Padding="4,2" 
+                                BorderBrush="DarkGray" 
+                                CornerRadius="3" 
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="TextBoxBaseControlTemplate" TargetType="{x:Type TextBoxBase}">
+            <Border Background="{TemplateBinding Background}" 
+                    x:Name="Bd" BorderBrush="Black"
+                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10"> 
+                <ScrollViewer x:Name="PART_ContentHost"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" TargetName="Bd"/>
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="Width" Value="Auto">
+                    <Setter Property="MinWidth" Value="100"/>
+                </Trigger>
+                <Trigger Property="Height" Value="Auto">
+                    <Setter Property="MinHeight" Value="20"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+    </Window.Resources>
+
+    <Grid x:Name="layoutGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6.75*" />
+            <ColumnDefinition Width="46.25*" />
+            <ColumnDefinition Width="6.75*" />
+            <ColumnDefinition Width="34.3*" />
+            <ColumnDefinition Width="6.75*" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" /> 
+            <RowDefinition Height="94*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        
+        <Border 
+            Grid.Row="1" 
+            Grid.Column="1" 
+            BorderBrush="White" 
+            BorderThickness="2.5" 
+            Background="White" 
+            CornerRadius="8">
+            
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Direction="270" Opacity="0.25"/>
+            </Border.Effect>
+            
+            <Grid x:Name="leftBlock" Background="White" ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8.11*" />
+                    <ColumnDefinition Width="83.22*" />
+                    <ColumnDefinition Width="8.11*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="11.7*"/>
+                    <RowDefinition Height="56.43*"/>
+                    <RowDefinition Height="23.26*"/>
+                </Grid.RowDefinitions>
+                
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{
+                    Binding Path=SynchronizedText, 
+                    UpdateSourceTrigger=PropertyChanged,
+                    Mode=OneWayToSource}"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{
+                    Binding Path=SynchronizedText, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    Mode=OneWay}"/>
+                
+                <TextBlock x:Name="MethodNameTextBlock" Grid.Column="1" Grid.Row="1">Метод Золотого Сечения</TextBlock>
+            </Grid>
+        </Border>
+        
+        <Border 
+            Grid.Row="1" 
+            Grid.Column="3" 
+            BorderBrush="White" 
+            BorderThickness="2.5" 
+            Background="White" 
+            CornerRadius="8">
+            
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Direction="270" Opacity="0.25"/>
+            </Border.Effect>
+            
+            <Grid x:Name="rightBlock" Background="White" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="88*" />
+                    <ColumnDefinition Width="6*" />
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="18.18*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="17.7*" />
+                    <RowDefinition Height="10.62*" />
+                    <RowDefinition Height="7*" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                
+                <TextBlock x:Name="ChooseFunctionTextBlock" Grid.Row="1" Grid.Column="1">
+                    Выберите Функцию
+                </TextBlock>
+                
+                <StackPanel x:Name="FunctionsStackPanel" Grid.Row="2" Grid.Column="1"
+                            VerticalAlignment="center">
+                    <RadioButton x:Name="FunctionRadioButton1" GroupName="FunctionsGroup" Content="y=x^2" />
+                    <RadioButton x:Name="FunctionRadioButton2" GroupName="FunctionsGroup" Content="y=x^2" />
+                    <RadioButton x:Name="FunctionRadioButton3" GroupName="FunctionsGroup" Content="y=x^2" />
+                    <RadioButton x:Name="FunctionRadioButton4" GroupName="FunctionsGroup" Content="y=x^2" />
+                </StackPanel>
+                
+                <TextBlock x:Name="BoundsTextBlock" Grid.Row="3" Grid.Column="1">
+                    Задайте границы
+                </TextBlock>
+                
+                <!-- Блок задания границ -->
+                <Grid Grid.Row="4" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="46.89*" />
+                        <ColumnDefinition Width="6.89*"/>
+                        <ColumnDefinition Width="46.89*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3.33*"/>
+                        <RowDefinition Height="3.33*"/>
+                        <RowDefinition Height="3.33*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock x:Name="LeftBoundTextBlock" Grid.Row="0" Grid.Column="0" 
+                               HorizontalAlignment="center" VerticalAlignment="center">
+                        Левая граница
+                    </TextBlock>
+                    <TextBlock x:Name="RightBoundTextBlock" Grid.Row="1" Grid.Column="0" 
+                               HorizontalAlignment="center" VerticalAlignment="center">
+                        Правая граница
+                    </TextBlock>
+                    <TextBlock x:Name="AccuracyTextBlock" Grid.Row="2" Grid.Column="0" 
+                               HorizontalAlignment="center" VerticalAlignment="center">
+                        Точность
+                    </TextBlock>
+                    
+                    <TextBox x:Name="LeftBoundTextBox" Template="{StaticResource TextBoxBaseControlTemplate}" 
+                             Grid.Row="0" Grid.Column="2" Height="25" VerticalAlignment="center" 
+                             Text="{Binding Path=LeftBound, UpdateSourceTrigger=PropertyChanged,
+                             Mode=OneWayToSource}" />
+                    <TextBox x:Name="RightBoundTextBox" Template="{StaticResource TextBoxBaseControlTemplate}" 
+                             Grid.Row="1" Grid.Column="2" Height="25" VerticalAlignment="center"
+                             Text="{Binding Path=RightBound}" />
+                    <TextBox x:Name="EpsilonTextBox" Template="{StaticResource TextBoxBaseControlTemplate}" 
+                             Grid.Row="2" Grid.Column="2" Height="25" VerticalAlignment="center" 
+                             Text="{Binding Path=Accuracy}" />
+                </Grid>
+                
+                <!-- Блок вывода результатов -->
+                <Grid Grid.Row="5" Grid.Column="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="46.89*" />
+                        <ColumnDefinition Width="6.89*"/>
+                        <ColumnDefinition Width="46.89*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="55.22*"/>
+                        <RowDefinition Height="20*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock x:Name="minumumTextBlock" Grid.Row="0" Grid.Column="0" VerticalAlignment="center" HorizontalAlignment="center">
+                        Точка минимума
+                    </TextBlock>
+                    
+                    <TextBlock x:Name="resultTextBlock" Grid.Row="0" Grid.Column="2" VerticalAlignment="center" HorizontalAlignment="center">
+                        Значение функции в точке минимума
+                    </TextBlock>
+                    
+                    <Border Grid.Row="1" Grid.Column="0"
+                                        x:Name="Bd" BorderBrush="Black"
+                                        BorderThickness="1" CornerRadius="10">
+                        <TextBlock x:Name="MinimumTextBox" Text="{Binding Path=LeftBound, 
+                        UpdateSourceTrigger=PropertyChanged,
+                        Mode=OneWay}" />
+                    </Border>
+                    <!-- <TextBlock x:Name="ResultTextBox" Template="{StaticResource TextBoxBaseControlTemplate}"  -->
+                    <!--            Grid.Row="1" Grid.Column="2" IsReadOnly="True"/> -->
+                </Grid>
+                
+                    <!-- Блок нижних кнопок -->
+                <Grid Grid.Row="6" Grid.Column="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="46.89*" />
+                        <ColumnDefinition Width="6.89*"/>
+                        <ColumnDefinition Width="46.89*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Style="{StaticResource MyButtonStyle}" 
+                            x:Name="PlotButton" VerticalAlignment="Center" Height="40" 
+                            Content="РЕШИТЬ ЗАДАЧУ" >
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5" />
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button Grid.Column="2" x:Name="ResetButton" Style="{StaticResource MyButtonStyle}" 
+                            VerticalAlignment="Center" Height="40" 
+                            Content="СБРОС" >
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5" />
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    
+                </Grid>
+            </Grid>
+        </Border>
+        
+        
+    </Grid>
+</Window>
