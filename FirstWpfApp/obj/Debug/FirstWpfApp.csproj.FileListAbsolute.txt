@@ -28,3 +28,4 @@ C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\obj\Debug\FirstWpfApp.csproj.Generat
 C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\obj\Debug\FirstWpfApp.csproj.CoreCompileInputs.cache
 C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\obj\Debug\FirstWpfApp.exe
 C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\obj\Debug\FirstWpfApp.pdb
+C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\obj\Debug\GeneratedInternalTypeHelper.g.cs

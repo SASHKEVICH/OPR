@@ -16,34 +16,23 @@
                 OnPropertyChanged(nameof(SynchronizedText));
             }
         }
-        public double Leftbound
+        public double LeftBound
         {
             get => _leftBound;
-            set
-            {
-                _leftBound = value;
-                OnPropertyChanged(nameof(Leftbound));
-            }
+            set => Set(ref _leftBound, value);
         }
 
-        public double Rightbound
+        public double RightBound
         {
             get => _rightBound;
-            set
-            {
-                _rightBound = value;
-                OnPropertyChanged(nameof(Rightbound));
-            }
+            set => Set(ref _rightBound, value);
         }
 
         public double Accuracy
         {
             get => _accuracy;
-            set
-            {
-                _accuracy = value;
-                OnPropertyChanged(nameof(Accuracy));
-            }
+            set => Set(ref _accuracy, value);
+            
         }
         
     }
