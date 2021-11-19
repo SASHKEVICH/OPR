@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
+
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 using FirstWpfApp.ViewModels;
 
 namespace FirstWpfApp
@@ -21,14 +15,17 @@ namespace FirstWpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly MainWindowViewModel _mainWindow;
+        
         public MainWindow()
         {
             InitializeComponent();
-            var mainWindowViewModel = new MainWindowViewModel();
-            this.DataContext = mainWindowViewModel;
+
+            _mainWindow = new MainWindowViewModel();
 
             int biggerFont = 32;
             int smallerFont = 15;
+            int radioFont = 18;
 
             layoutGrid.Background = new SolidColorBrush(Color.FromRgb(58, 0x8b, 0xED));
             
@@ -48,11 +45,10 @@ namespace FirstWpfApp
             DecorateButton(PlotButton, new SolidColorBrush(Color.FromRgb(58, 0x8B, 0xED)));
             DecorateButton(ResetButton, new SolidColorBrush(Color.FromRgb(0xFF, 63, 47)));
 
-            DecorateRadioButton(FunctionRadioButton1, 18);
-            DecorateRadioButton(FunctionRadioButton2, 18);
-            DecorateRadioButton(FunctionRadioButton3, 18);
-            DecorateRadioButton(FunctionRadioButton4, 18);
-
+            DecorateRadioButton(FunctionRadioButton1, radioFont);
+            DecorateRadioButton(FunctionRadioButton2, radioFont);
+            DecorateRadioButton(FunctionRadioButton3, radioFont);
+            DecorateRadioButton(FunctionRadioButton4, radioFont);
         }
 
         private void DecorateTextBlock(TextBlock textBlock, int fontSize, bool doCenterText)
@@ -87,6 +83,11 @@ namespace FirstWpfApp
             radioButton.FontFamily = new FontFamily("Roboto");
             radioButton.FontSize = fontSize;
             radioButton.Height = 30;
+        }
+
+        private void PlotButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            MinimumTextBox.Text = _mainWindow.PointOfMin.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

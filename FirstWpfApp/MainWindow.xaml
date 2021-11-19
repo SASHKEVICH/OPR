@@ -140,10 +140,13 @@
                 
                 <StackPanel x:Name="FunctionsStackPanel" Grid.Row="2" Grid.Column="1"
                             VerticalAlignment="center">
-                    <RadioButton x:Name="FunctionRadioButton1" GroupName="FunctionsGroup" Content="y=x^2" />
-                    <RadioButton x:Name="FunctionRadioButton2" GroupName="FunctionsGroup" Content="y=x^2" />
-                    <RadioButton x:Name="FunctionRadioButton3" GroupName="FunctionsGroup" Content="y=x^2" />
-                    <RadioButton x:Name="FunctionRadioButton4" GroupName="FunctionsGroup" Content="y=x^2" />
+                    <RadioButton x:Name="FunctionRadioButton1" 
+                                 IsChecked="{Binding Path=IsFirstFunction}" 
+                                 GroupName="FunctionsGroup" 
+                                 Content="y=x^2" />
+                    <RadioButton x:Name="FunctionRadioButton2" IsChecked="{Binding Path=IsSecondFunction}" GroupName="FunctionsGroup" Content="y=x^3" />
+                    <RadioButton x:Name="FunctionRadioButton3" GroupName="FunctionsGroup" Content="y=x^4" />
+                    <RadioButton x:Name="FunctionRadioButton4" GroupName="FunctionsGroup" Content="y=x^5" />
                 </StackPanel>
                 
                 <TextBlock x:Name="BoundsTextBlock" Grid.Row="3" Grid.Column="1">
@@ -179,14 +182,19 @@
                     
                     <TextBox x:Name="LeftBoundTextBox" Template="{StaticResource TextBoxBaseControlTemplate}" 
                              Grid.Row="0" Grid.Column="2" Height="25" VerticalAlignment="center" 
-                             Text="{Binding Path=LeftBound, UpdateSourceTrigger=PropertyChanged,
+                             Text="{Binding Path=LeftBound, 
+                             UpdateSourceTrigger=PropertyChanged,
                              Mode=OneWayToSource}" />
                     <TextBox x:Name="RightBoundTextBox" Template="{StaticResource TextBoxBaseControlTemplate}" 
                              Grid.Row="1" Grid.Column="2" Height="25" VerticalAlignment="center"
-                             Text="{Binding Path=RightBound}" />
+                             Text="{Binding Path=RightBound,
+                             UpdateSourceTrigger=PropertyChanged,
+                             Mode=OneWayToSource}" />
                     <TextBox x:Name="EpsilonTextBox" Template="{StaticResource TextBoxBaseControlTemplate}" 
                              Grid.Row="2" Grid.Column="2" Height="25" VerticalAlignment="center" 
-                             Text="{Binding Path=Accuracy}" />
+                             Text="{Binding Path=Accuracy,
+                             UpdateSourceTrigger=PropertyChanged,
+                             Mode=OneWayToSource}" />
                 </Grid>
                 
                 <!-- Блок вывода результатов -->
@@ -211,14 +219,16 @@
                     </TextBlock>
                     
                     <Border Grid.Row="1" Grid.Column="0"
-                                        x:Name="Bd" BorderBrush="Black"
+                                        x:Name="Bd1" BorderBrush="Black"
                                         BorderThickness="1" CornerRadius="10">
-                        <TextBlock x:Name="MinimumTextBox" Text="{Binding Path=LeftBound, 
-                        UpdateSourceTrigger=PropertyChanged,
-                        Mode=OneWay}" />
+                        <TextBlock x:Name="MinimumTextBox" />
                     </Border>
-                    <!-- <TextBlock x:Name="ResultTextBox" Template="{StaticResource TextBoxBaseControlTemplate}"  -->
-                    <!--            Grid.Row="1" Grid.Column="2" IsReadOnly="True"/> -->
+                    
+                    <Border Grid.Row="1" Grid.Column="2"
+                            x:Name="Bd2" BorderBrush="Black"
+                            BorderThickness="1" CornerRadius="10">
+                        <TextBlock x:Name="ResultsTextBox"/>
+                    </Border>
                 </Grid>
                 
                     <!-- Блок нижних кнопок -->
@@ -231,7 +241,7 @@
 
                     <Button Grid.Column="0" Style="{StaticResource MyButtonStyle}" 
                             x:Name="PlotButton" VerticalAlignment="Center" Height="40" 
-                            Content="РЕШИТЬ ЗАДАЧУ" >
+                            Content="РЕШИТЬ ЗАДАЧУ" Click="PlotButton_OnClick">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="5" />
