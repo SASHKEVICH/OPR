@@ -221,7 +221,10 @@
                     <Border Grid.Row="1" Grid.Column="0"
                                         x:Name="Bd1" BorderBrush="Black"
                                         BorderThickness="1" CornerRadius="10">
-                        <TextBlock x:Name="MinimumTextBox" />
+                        <TextBlock x:Name="MinimumTextBox" Text="{
+                            Binding Path=PointOfMin,
+                            UpdateSourceTrigger=PropertyChanged, 
+                            Mode=OneWay}"/>
                     </Border>
                     
                     <Border Grid.Row="1" Grid.Column="2"

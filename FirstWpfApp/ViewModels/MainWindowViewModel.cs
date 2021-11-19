@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net.Security;
+using System.Windows.Input;
+using FirstWpfApp.Infrastructure.Commands;
 using FirstWpfApp.Models;
 
 namespace FirstWpfApp.ViewModels
@@ -17,23 +19,26 @@ namespace FirstWpfApp.ViewModels
         private double _leftBound;
         private double _rightBound;
         private double _accuracy;
-        private double _pointOfMin;
         // private double _minResult;
         
         private FunctionsEnum _checkedFunction = FunctionsEnum.FirstFunction;
         private readonly Functions _functions = new Functions();
 
-        public double PointOfMin => _pointOfMin = GoldRatioBehavior.FindMin(LeftBound, RightBound, Accuracy, ToFunction);
-
-        // public Func<double, double> Function
-        // {
-        //     get => _function;
-        //     set
-        //     {
-        //         if(FunctionRadioButton1)
-        //     }
-        // }
+        public double PointOfMin => GoldRatioBehavior.FindMin(LeftBound, RightBound, Accuracy, ToFunction);
         
+        public ICommand PerformCalculationCommand { get; }
+
+        private bool CanPerformCalculationCommandExecute(object p) => true;
+
+        private void OnPerformCalcultaionCommandExecuted(object p)
+        {
+            // _pointOfMin = PointOfMin;
+        }
+
+        public MainWindowViewModel()
+        {
+            PerformCalculationCommand = new LambdaCommand(OnPerformCalcultaionCommandExecuted, CanPerformCalculationCommandExecute);
+        }
 
         public FunctionsEnum CheckedFunction
         {

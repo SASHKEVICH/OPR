@@ -76,6 +76,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Infrastructure\Commands\BaseCommand\Command.cs" />
+    <Compile Include="Infrastructure\Commands\LambdaCommand.cs" />
     <Compile Include="Models\Functions.cs" />
     <Compile Include="Models\GoldRatioBehavior.cs" />
     <Compile Include="Properties\Annotations.cs" />
