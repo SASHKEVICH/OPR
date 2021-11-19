@@ -11,6 +11,7 @@
 
 using FirstWpfApp;
 using FirstWpfApp.ViewModels;
+using ScottPlot;
 using System;
 using System.Diagnostics;
 using System.Windows;
