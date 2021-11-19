@@ -19,27 +19,52 @@ namespace FirstWpfApp.ViewModels
         private double _leftBound;
         private double _rightBound;
         private double _accuracy;
-        // private double _minResult;
-        
+        public double PointOfMin { get; private set; }
+        public double MinValueOfFunction { get; private set; }
+
         private FunctionsEnum _checkedFunction = FunctionsEnum.FirstFunction;
         private readonly Functions _functions = new Functions();
 
-        public double PointOfMin => GoldRatioBehavior.FindMin(LeftBound, RightBound, Accuracy, ToFunction);
-        
+        private GoldRatioBehavior _goldRatio;
+
         public ICommand PerformCalculationCommand { get; }
+        public ICommand ClearAllFieldsCommand { get; }
 
         private bool CanPerformCalculationCommandExecute(object p) => true;
+        private bool CanClearAllFieldsCommandCommandExecute(object p) => true;
 
         private void OnPerformCalcultaionCommandExecuted(object p)
         {
-            // _pointOfMin = PointOfMin;
+            _goldRatio = new GoldRatioBehavior();
+            PointOfMin = _goldRatio.FindMin(LeftBound, RightBound, Accuracy, MathFunction);
+            MinValueOfFunction = _goldRatio.MinValue(PointOfMin, MathFunction);
+            OnPropertyChanged(nameof(PointOfMin));
+            OnPropertyChanged(nameof(MinValueOfFunction));
         }
 
+        private void OnClearAllFieldsCommandCommandExecute(object p)
+        {
+            LeftBound = 0;
+            RightBound = 0;
+            Accuracy = 0;
+            PointOfMin = 0;
+            MinValueOfFunction = 0;
+            OnPropertyChanged(nameof(LeftBound));
+            OnPropertyChanged(nameof(RightBound));
+            OnPropertyChanged(nameof(Accuracy));
+            OnPropertyChanged(nameof(PointOfMin));
+            OnPropertyChanged(nameof(MinValueOfFunction));
+        }
+        
         public MainWindowViewModel()
         {
-            PerformCalculationCommand = new LambdaCommand(OnPerformCalcultaionCommandExecuted, CanPerformCalculationCommandExecute);
+            PerformCalculationCommand = new LambdaCommand(OnPerformCalcultaionCommandExecuted, 
+                CanPerformCalculationCommandExecute);
+            
+            ClearAllFieldsCommand = new LambdaCommand(OnClearAllFieldsCommandCommandExecute,
+                CanClearAllFieldsCommandCommandExecute);
         }
-
+        
         public FunctionsEnum CheckedFunction
         {
             get => _checkedFunction;
@@ -67,8 +92,20 @@ namespace FirstWpfApp.ViewModels
             get => _checkedFunction == FunctionsEnum.SecondFunction;
             set => _checkedFunction = value ? FunctionsEnum.SecondFunction : _checkedFunction;
         }
+        
+        public bool IsThirdFunction
+        {
+            get => _checkedFunction == FunctionsEnum.ThirdFunction;
+            set => _checkedFunction = value ? FunctionsEnum.ThirdFunction : _checkedFunction;
+        }
+        
+        public bool IsFourthFunction
+        {
+            get => _checkedFunction == FunctionsEnum.FourthFunction;
+            set => _checkedFunction = value ? FunctionsEnum.FourthFunction : _checkedFunction;
+        }
 
-        private Func<double, double> ToFunction
+        private Func<double, double> MathFunction
         {
             get
             {

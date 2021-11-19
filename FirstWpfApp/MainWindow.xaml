@@ -144,9 +144,18 @@
                                  IsChecked="{Binding Path=IsFirstFunction}" 
                                  GroupName="FunctionsGroup" 
                                  Content="y=x^2" />
-                    <RadioButton x:Name="FunctionRadioButton2" IsChecked="{Binding Path=IsSecondFunction}" GroupName="FunctionsGroup" Content="y=x^3" />
-                    <RadioButton x:Name="FunctionRadioButton3" GroupName="FunctionsGroup" Content="y=x^4" />
-                    <RadioButton x:Name="FunctionRadioButton4" GroupName="FunctionsGroup" Content="y=x^5" />
+                    <RadioButton x:Name="FunctionRadioButton2" 
+                                 IsChecked="{Binding Path=IsSecondFunction}" 
+                                 GroupName="FunctionsGroup" 
+                                 Content="y=x^3" />
+                    <RadioButton x:Name="FunctionRadioButton3" 
+                                 IsChecked="{Binding Path=IsThirdFunction}" 
+                                 GroupName="FunctionsGroup" 
+                                 Content="y=x^4" />
+                    <RadioButton x:Name="FunctionRadioButton4" 
+                                 IsChecked="{Binding Path=IsFourthFunction}" 
+                                 GroupName="FunctionsGroup" 
+                                 Content="y=x^5" />
                 </StackPanel>
                 
                 <TextBlock x:Name="BoundsTextBlock" Grid.Row="3" Grid.Column="1">
@@ -181,20 +190,22 @@
                     </TextBlock>
                     
                     <TextBox x:Name="LeftBoundTextBox" Template="{StaticResource TextBoxBaseControlTemplate}" 
-                             Grid.Row="0" Grid.Column="2" Height="25" VerticalAlignment="center" 
+                             Grid.Row="0" Grid.Column="2" 
+                             Height="25" VerticalAlignment="Center" 
                              Text="{Binding Path=LeftBound, 
-                             UpdateSourceTrigger=PropertyChanged,
-                             Mode=OneWayToSource}" />
-                    <TextBox x:Name="RightBoundTextBox" Template="{StaticResource TextBoxBaseControlTemplate}" 
-                             Grid.Row="1" Grid.Column="2" Height="25" VerticalAlignment="center"
+                             UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox x:Name="RightBoundTextBox" 
+                             Template="{StaticResource TextBoxBaseControlTemplate}" 
+                             Grid.Row="1" Grid.Column="2" 
+                             Height="25" VerticalAlignment="Center"
                              Text="{Binding Path=RightBound,
-                             UpdateSourceTrigger=PropertyChanged,
-                             Mode=OneWayToSource}" />
+                             UpdateSourceTrigger=PropertyChanged}" />
                     <TextBox x:Name="EpsilonTextBox" Template="{StaticResource TextBoxBaseControlTemplate}" 
-                             Grid.Row="2" Grid.Column="2" Height="25" VerticalAlignment="center" 
+                             Grid.Row="2" Grid.Column="2" 
+                             Height="25" VerticalAlignment="Center" 
                              Text="{Binding Path=Accuracy,
                              UpdateSourceTrigger=PropertyChanged,
-                             Mode=OneWayToSource}" />
+                             Delay=1000}" />
                 </Grid>
                 
                 <!-- Блок вывода результатов -->
@@ -221,16 +232,21 @@
                     <Border Grid.Row="1" Grid.Column="0"
                                         x:Name="Bd1" BorderBrush="Black"
                                         BorderThickness="1" CornerRadius="10">
-                        <TextBlock x:Name="MinimumTextBox" Text="{
-                            Binding Path=PointOfMin,
-                            UpdateSourceTrigger=PropertyChanged, 
-                            Mode=OneWay}"/>
+                        <TextBlock x:Name="MinimumTextBox" 
+                                   Text="{Binding Path=PointOfMin,
+                                   UpdateSourceTrigger=PropertyChanged}"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Center"/>
                     </Border>
                     
                     <Border Grid.Row="1" Grid.Column="2"
                             x:Name="Bd2" BorderBrush="Black"
                             BorderThickness="1" CornerRadius="10">
-                        <TextBlock x:Name="ResultsTextBox"/>
+                        <TextBlock x:Name="ResultsTextBox" 
+                                   Text="{Binding Path=MinValueOfFunction,
+                                   UpdateSourceTrigger=PropertyChanged}"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Center"/>
                     </Border>
                 </Grid>
                 
@@ -244,7 +260,8 @@
 
                     <Button Grid.Column="0" Style="{StaticResource MyButtonStyle}" 
                             x:Name="PlotButton" VerticalAlignment="Center" Height="40" 
-                            Content="РЕШИТЬ ЗАДАЧУ" Click="PlotButton_OnClick">
+                            Content="РЕШИТЬ ЗАДАЧУ" 
+                            Command="{Binding PerformCalculationCommand}">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="5" />
@@ -253,7 +270,7 @@
                     </Button>
                     <Button Grid.Column="2" x:Name="ResetButton" Style="{StaticResource MyButtonStyle}" 
                             VerticalAlignment="Center" Height="40" 
-                            Content="СБРОС" >
+                            Content="СБРОС" Command="{Binding ClearAllFieldsCommand}">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="5" />

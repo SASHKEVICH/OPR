@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 using System.Windows.Media;
-
+using FirstWpfApp.Models;
 using FirstWpfApp.ViewModels;
 
 namespace FirstWpfApp
@@ -15,14 +15,10 @@ namespace FirstWpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly MainWindowViewModel _mainWindow;
-        
         public MainWindow()
         {
             InitializeComponent();
-
-            _mainWindow = new MainWindowViewModel();
-
+            
             int biggerFont = 32;
             int smallerFont = 15;
             int radioFont = 18;
@@ -84,10 +80,6 @@ namespace FirstWpfApp
             radioButton.FontSize = fontSize;
             radioButton.Height = 30;
         }
-
-        private void PlotButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            MinimumTextBox.Text = _mainWindow.PointOfMin.ToString(CultureInfo.InvariantCulture);
-        }
+        
     }
 }
