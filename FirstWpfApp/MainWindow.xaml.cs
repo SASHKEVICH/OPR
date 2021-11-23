@@ -80,6 +80,10 @@ namespace FirstWpfApp
             radioButton.FontSize = fontSize;
             radioButton.Height = 30;
         }
-        
+
+        private void PlotButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

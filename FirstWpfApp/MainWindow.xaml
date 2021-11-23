@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:FirstWpfApp.ViewModels"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:FirstWpfApp"
         mc:Ignorable="d"
         Title="The Gold Ratio" 
@@ -100,7 +101,15 @@
                     <RowDefinition Height="23.26*"/>
                 </Grid.RowDefinitions>
                 
-                <TextBlock x:Name="MethodNameTextBlock" Grid.Column="1" Grid.Row="1">Метод Золотого Сечения</TextBlock>
+                <lvc:CartesianChart Grid.Row="3" Grid.Column="1"
+                                    Series="{Binding SeriesCollection}"
+                                    LegendLocation="None">
+                    
+                </lvc:CartesianChart>
+                
+                <TextBlock x:Name="MethodNameTextBlock" Grid.Column="1" Grid.Row="1">
+                    Метод Золотого Сечения
+                </TextBlock>
             </Grid>
         </Border>
         
@@ -205,7 +214,7 @@
                              Height="25" VerticalAlignment="Center" 
                              Text="{Binding Path=Accuracy,
                              UpdateSourceTrigger=PropertyChanged,
-                             Delay=1000}" />
+                             Delay=500}" />
                 </Grid>
                 
                 <!-- Блок вывода результатов -->

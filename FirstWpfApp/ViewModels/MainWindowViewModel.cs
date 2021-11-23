@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Net.Security;
 using System.Windows.Input;
+using System.Windows.Media;
 using FirstWpfApp.Infrastructure.Commands;
 using FirstWpfApp.Models;
+using LiveCharts;
+using LiveCharts.Defaults;
+using LiveCharts.Wpf;
 
 namespace FirstWpfApp.ViewModels
 {
@@ -36,10 +40,39 @@ namespace FirstWpfApp.ViewModels
         private void OnPerformCalcultaionCommandExecuted(object p)
         {
             _goldRatio = new GoldRatioBehavior();
-            PointOfMin = _goldRatio.FindMin(LeftBound, RightBound, Accuracy, MathFunction);
-            MinValueOfFunction = _goldRatio.MinValue(PointOfMin, MathFunction);
+
+            Func<double, double> pickedFunction = MathFunction;
+            
+            PointOfMin = _goldRatio.FindMin(LeftBound, RightBound, Accuracy, pickedFunction);
+            MinValueOfFunction = _goldRatio.MinValue(PointOfMin, pickedFunction);
+            
+            var points = new ChartValues<ObservablePoint>();
+
+            for (var x = LeftBound; x < RightBound; x += 0.1)
+            {
+                points.Add(new ObservablePoint(x, pickedFunction(x)));
+            }
+            
+            SeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    PointGeometry = null,
+                    Fill = Brushes.Transparent,
+                    DataLabels = false,
+                    Values = points,
+                },
+                new LineSeries
+                {
+                    Fill = Brushes.Transparent,
+                    DataLabels = false,
+                    Values = new ChartValues<ObservablePoint> {new ObservablePoint(PointOfMin, MinValueOfFunction)}
+                }
+            };
+            
             OnPropertyChanged(nameof(PointOfMin));
             OnPropertyChanged(nameof(MinValueOfFunction));
+            OnPropertyChanged(nameof(SeriesCollection));
         }
 
         private void OnClearAllFieldsCommandCommandExecute(object p)
@@ -80,6 +113,8 @@ namespace FirstWpfApp.ViewModels
                 
             }
         }
+        
+        public SeriesCollection SeriesCollection { get; private set; }
 
         public bool IsFirstFunction
         {
