@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using FirstWpfApp.Models;
 using FirstWpfApp.ViewModels;
+using LiveCharts;
 
 namespace FirstWpfApp
 {
@@ -45,6 +46,8 @@ namespace FirstWpfApp
             DecorateRadioButton(FunctionRadioButton2, radioFont);
             DecorateRadioButton(FunctionRadioButton3, radioFont);
             DecorateRadioButton(FunctionRadioButton4, radioFont);
+
+            Chart.Zoom = ZoomingOptions.Xy;
         }
 
         private void DecorateTextBlock(TextBlock textBlock, int fontSize, bool doCenterText)
