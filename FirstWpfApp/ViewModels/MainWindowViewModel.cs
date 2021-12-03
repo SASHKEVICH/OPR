@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Security;
-using System.Windows;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -35,53 +33,55 @@ namespace FirstWpfApp.ViewModels
         private readonly Functions _functions = new Functions();
 
         private GoldRatioBehavior _goldRatio;
+        private List<Iteration> _allIterationsList;
+        private Func<double, double> _pickedFunction;
 
         public ICommand PerformCalculationCommand { get; }
         public ICommand ClearAllFieldsCommand { get; }
 
         private bool CanPerformCalculationCommandExecute(object p) => true;
         private bool CanClearAllFieldsCommandCommandExecute(object p) => true;
-
-        private void OnPerformCalcultaionCommandExecuted(object p)
+        
+        [STAThread]
+        private async void OnPerformCalcultaionCommandExecuted(object p)
         {   
-            var pickedFunction = MathFunction;
-            _goldRatio = new GoldRatioBehavior(LeftBound, RightBound, Accuracy, pickedFunction);
+            _pickedFunction = MathFunction;
+            _goldRatio = new GoldRatioBehavior(LeftBound, RightBound, Accuracy, _pickedFunction);
 
             PointOfMin = Math.Round(_goldRatio.FindMin(), 4);
             MinValueOfFunction = Math.Round(_goldRatio.MinValue(), 4);
             
-            var allIterationList = _goldRatio.AllIterationList;
+            _allIterationsList = _goldRatio.AllIterationList;
             
-            CreateSeriesCollection(pickedFunction);
-            // ChartVisualElements = new VisualElementsCollection();
+            CreateSeriesCollection(_pickedFunction);
+            OnPropertyChanged(nameof(SeriesCollection));
 
             ChartVisualElements.Clear();
-            CreateVisualizationOnChart(allIterationList, pickedFunction);
-            // ChartVisualElements.Clear();
             
+            await CreateVisualizationOnChart();
+
             OnPropertyChanged(nameof(PointOfMin));
             OnPropertyChanged(nameof(MinValueOfFunction));
-            OnPropertyChanged(nameof(SeriesCollection));
         }
-
-        private void CreateVisualizationOnChart(List<Iteration> allIterationList, Func<double, double> pickedFunction)
+        
+        [STAThread]
+        private async Task CreateVisualizationOnChart()
         {
-            foreach (var iteration in allIterationList)
+            foreach (var iteration in _allIterationsList)
             {
+                await Task.Delay(250);
                 ChartVisualElements.Add(new VisualElement
                 {
                     X = iteration.MinPointX,
-                    Y = pickedFunction(iteration.MinPointX),
+                    Y = _pickedFunction(iteration.MinPointX),
                     UIElement = new Line
                     {
                         Stroke = Brushes.Black,
                         // X1 = iteration.MinPointX,
-                        Y1 = pickedFunction(iteration.MinPointX) + 10,
+                        Y1 = _pickedFunction(iteration.MinPointX) + 10,
                         // X2 = iteration.MinPointX,
-                        Y2 = pickedFunction(iteration.MinPointX) - 10,
-                        HorizontalAlignment = HorizontalAlignment.Left,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        StrokeThickness = 1,
+                        Y2 = _pickedFunction(iteration.MinPointX) - 10,
+                        StrokeThickness = 0.5,
                     }
                 });
                 OnPropertyChanged(nameof(ChartVisualElements));
