@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -69,21 +70,20 @@ namespace FirstWpfApp.ViewModels
         {
             foreach (var iteration in _allIterationsList)
             {
-                await Task.Delay(250);
+                var x = iteration.MinPointX;
+                var y = _pickedFunction(iteration.MinPointX);
                 ChartVisualElements.Add(new VisualElement
                 {
-                    X = iteration.MinPointX,
-                    Y = _pickedFunction(iteration.MinPointX),
+                    X = x,
                     UIElement = new Line
                     {
                         Stroke = Brushes.Black,
-                        // X1 = iteration.MinPointX,
-                        Y1 = _pickedFunction(iteration.MinPointX) + 10,
-                        // X2 = iteration.MinPointX,
-                        Y2 = _pickedFunction(iteration.MinPointX) - 10,
+                        Y2 = -y,
+                        // MinHeight = 100,
                         StrokeThickness = 0.5,
                     }
                 });
+                await Task.Delay(250);
                 OnPropertyChanged(nameof(ChartVisualElements));
             }
         }
