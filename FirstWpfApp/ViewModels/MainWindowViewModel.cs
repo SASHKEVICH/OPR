@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -10,6 +11,7 @@ using FirstWpfApp.Infrastructure.Commands;
 using FirstWpfApp.Models;
 using LiveCharts;
 using LiveCharts.Defaults;
+using LiveCharts.Events;
 using LiveCharts.Wpf;
 
 namespace FirstWpfApp.ViewModels
@@ -26,7 +28,7 @@ namespace FirstWpfApp.ViewModels
     {
         private double _leftBound;
         private double _rightBound;
-        private double _accuracy;
+        private double _accuracy = 0.001;
         public double PointOfMin { get; private set; }
         public double MinValueOfFunction { get; private set; }
 
@@ -36,15 +38,15 @@ namespace FirstWpfApp.ViewModels
         private GoldRatioBehavior _goldRatio;
         private List<Iteration> _allIterationsList;
         private Func<double, double> _pickedFunction;
-
         public ICommand PerformCalculationCommand { get; }
         public ICommand ClearAllFieldsCommand { get; }
+        public ICommand RangeChangeCommand { get; private set; }
 
         private bool CanPerformCalculationCommandExecute(object p) => true;
         private bool CanClearAllFieldsCommandCommandExecute(object p) => true;
+        private bool CanRangeChangeCommandCommandExecute(object p) => true;
         
-        [STAThread]
-        private async void OnPerformCalcultaionCommandExecuted(object p)
+        private void OnPerformCalcultaionCommandExecuted(object p)
         {   
             _pickedFunction = MathFunction;
             _goldRatio = new GoldRatioBehavior(LeftBound, RightBound, Accuracy, _pickedFunction);
@@ -57,35 +59,76 @@ namespace FirstWpfApp.ViewModels
             CreateSeriesCollection(_pickedFunction);
             OnPropertyChanged(nameof(SeriesCollection));
 
-            ChartVisualElements.Clear();
+            // ChartVisualElements.Clear();
             
-            await CreateVisualizationOnChart();
+            CreateVisualizationOnChart(true);
 
             OnPropertyChanged(nameof(PointOfMin));
             OnPropertyChanged(nameof(MinValueOfFunction));
         }
         
         [STAThread]
-        private async Task CreateVisualizationOnChart()
+        private async void CreateVisualizationOnChart(bool needDelay)
         {
+            ChartVisualElements.Clear();
             foreach (var iteration in _allIterationsList)
             {
                 var x = iteration.MinPointX;
                 var y = _pickedFunction(iteration.MinPointX);
-                ChartVisualElements.Add(new VisualElement
+                
+                var anotherVisualElement = new VisualElement
                 {
                     X = x,
                     UIElement = new Line
                     {
                         Stroke = Brushes.Black,
                         Y2 = -y,
+                        StrokeThickness = 0.5,
+                        RenderSize = new Size(0.5, Math.Abs(y)),
+                    },
+                    RenderSize = new Size(0.5, Math.Abs(y)),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Top,
+                };
+                
+                ChartVisualElements.Add(anotherVisualElement);
+                // anotherVisualElement.UpdateLayout();
+                if(needDelay) await Task.Delay(300);
+                OnPropertyChanged(nameof(ChartVisualElements));
+            }
+        }
+
+        private void CreateVisualizationOnChartWithoutDelay()
+        {
+            ChartVisualElements.Clear();
+            foreach (var iteration in _allIterationsList)
+            {
+                var x = iteration.MinPointX;
+                var y = _pickedFunction(iteration.MinPointX);
+
+                var anotherVisualElement = new VisualElement
+                {
+                    X = x,
+                    UIElement = new Line
+                    {
+                        Stroke = Brushes.Black,
+                        Y1 = -y,
                         // MinHeight = 100,
                         StrokeThickness = 0.5,
                     }
-                });
-                await Task.Delay(250);
+                };
+
+                var actualHeight = anotherVisualElement.Height;
+
+                ChartVisualElements.Add(anotherVisualElement);
+
                 OnPropertyChanged(nameof(ChartVisualElements));
             }
+        }
+
+        private void OnRangeChangeCommandCommandExecute(object p)
+        {
+            CreateVisualizationOnChartWithoutDelay();
         }
 
         private void OnClearAllFieldsCommandCommandExecute(object p)
@@ -110,6 +153,9 @@ namespace FirstWpfApp.ViewModels
             
             ClearAllFieldsCommand = new LambdaCommand(OnClearAllFieldsCommandCommandExecute,
                 CanClearAllFieldsCommandCommandExecute);
+            
+            RangeChangeCommand =
+                new LambdaCommand(OnRangeChangeCommandCommandExecute, CanRangeChangeCommandCommandExecute);
             
             ChartVisualElements = new VisualElementsCollection();
             

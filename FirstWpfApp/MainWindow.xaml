@@ -105,6 +105,9 @@
                                     Series="{Binding SeriesCollection}"
                                     VisualElements="{Binding ChartVisualElements}"
                                     LegendLocation="Bottom">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis RangeChangedCommand="{Binding RangeChangeCommand}" />
+                    </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
                 
                 <TextBlock x:Name="MethodNameTextBlock" Grid.Column="1" Grid.Row="1">
