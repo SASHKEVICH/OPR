@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:FirstWpfApp.ViewModels"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:oxyplot="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:FirstWpfApp"
         mc:Ignorable="d"
         Title="Методы оптимизации одномерной функции" 
@@ -86,7 +86,7 @@
                 <DropShadowEffect Color="Black" Direction="270" Opacity="0.25"/>
             </Border.Effect>
             
-            <Grid x:Name="leftBlock" Background="White">
+            <Grid x:Name="leftBlock" Background="White" ShowGridLines="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="8.11*" />
                     <ColumnDefinition Width="83.22*" />
@@ -101,11 +101,7 @@
                     <RowDefinition Height="23.26*"/>
                 </Grid.RowDefinitions>
                 
-                <lvc:CartesianChart Grid.Row="3" Grid.Column="1" Name="Chart"
-                                    Series="{Binding SeriesCollection}"
-                                    VisualElements="{Binding ChartVisualElements}"
-                                    LegendLocation="Bottom">
-                </lvc:CartesianChart>
+                <oxyplot:PlotView Grid.Row="3" Grid.Column="1" />
                 
                 <TextBlock x:Name="MethodNameTextBlock" Grid.Column="1" Grid.Row="1">
                     Метод Золотого Сечения

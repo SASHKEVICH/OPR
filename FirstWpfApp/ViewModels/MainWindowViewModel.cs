@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Automation.Peers;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using FirstWpfApp.Infrastructure;
 using FirstWpfApp.Infrastructure.Commands;
 using FirstWpfApp.Models;
-using LiveCharts;
-using LiveCharts.Defaults;
-using LiveCharts.Wpf;
 
 namespace FirstWpfApp.ViewModels
 {
@@ -44,7 +37,7 @@ namespace FirstWpfApp.ViewModels
         private bool CanClearAllFieldsCommandCommandExecute(object p) => true;
         
         [STAThread]
-        private async void OnPerformCalcultaionCommandExecuted(object p)
+        private void OnPerformCalcultaionCommandExecuted(object p)
         {   
             _pickedFunction = MathFunction;
             _goldRatio = new GoldRatioBehavior(LeftBound, RightBound, Accuracy, _pickedFunction);
@@ -53,40 +46,12 @@ namespace FirstWpfApp.ViewModels
             MinValueOfFunction = Math.Round(_goldRatio.MinValue(), 4);
             
             _allIterationsList = _goldRatio.AllIterationList;
-            
-            CreateSeriesCollection(_pickedFunction);
-            OnPropertyChanged(nameof(SeriesCollection));
-
-            ChartVisualElements.Clear();
-            
-            await CreateVisualizationOnChart();
 
             OnPropertyChanged(nameof(PointOfMin));
             OnPropertyChanged(nameof(MinValueOfFunction));
         }
         
-        [STAThread]
-        private async Task CreateVisualizationOnChart()
-        {
-            foreach (var iteration in _allIterationsList)
-            {
-                var x = iteration.MinPointX;
-                var y = _pickedFunction(iteration.MinPointX);
-                ChartVisualElements.Add(new VisualElement
-                {
-                    X = x,
-                    UIElement = new Line
-                    {
-                        Stroke = Brushes.Black,
-                        Y2 = -y,
-                        // MinHeight = 100,
-                        StrokeThickness = 0.5,
-                    }
-                });
-                await Task.Delay(250);
-                OnPropertyChanged(nameof(ChartVisualElements));
-            }
-        }
+       
 
         private void OnClearAllFieldsCommandCommandExecute(object p)
         {
@@ -110,18 +75,7 @@ namespace FirstWpfApp.ViewModels
             
             ClearAllFieldsCommand = new LambdaCommand(OnClearAllFieldsCommandCommandExecute,
                 CanClearAllFieldsCommandCommandExecute);
-            
-            ChartVisualElements = new VisualElementsCollection();
-            
-            SeriesCollection = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Пример функции",
-                    Values = new ChartValues<int> {5, 3, 6, 1}
-                }
-            };
-            
+
         }
         
         public FunctionsEnum CheckedFunction
@@ -139,11 +93,7 @@ namespace FirstWpfApp.ViewModels
                 
             }
         }
-
-        public SeriesCollection SeriesCollection { get; private set; }
         
-        public VisualElementsCollection ChartVisualElements { get; private set; }
-
         public bool IsFirstFunction
         {
             get => _checkedFunction == FunctionsEnum.FirstFunction;
@@ -206,49 +156,6 @@ namespace FirstWpfApp.ViewModels
             get => _accuracy;
             set => Set(ref _accuracy, value);
         }
-
-        private void CreateSeriesCollection(Func<double, double> pickedFunction)
-        {
-            var functionPoints = new ChartValues<ObservablePoint>();
-
-            for (var x = LeftBound - 5; x < RightBound + 5; x += 0.1)
-            {
-                double roundedX = Math.Round(x, 4);
-                functionPoints.Add(new ObservablePoint(roundedX, pickedFunction(roundedX)));
-            }
-            
-            SeriesCollection = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "График функции",
-                    Stroke = new SolidColorBrush(Color.FromRgb(58, 0x8b, 0xED)),
-                    PointGeometry = null,
-                    Fill = Brushes.Transparent,
-                    Values = functionPoints,
-                    DataLabels = false,
-                },
-                new LineSeries
-                {
-                    Title = "Граничные точки",
-                    Fill = Brushes.Transparent,
-                    Stroke = new SolidColorBrush(Colors.LightGreen),
-                    Values = new ChartValues<ObservablePoint>
-                    {
-                        new ObservablePoint(LeftBound, pickedFunction(LeftBound)),
-                        new ObservablePoint(double.NaN, double.NaN),
-                        new ObservablePoint(RightBound, pickedFunction(RightBound)), 
-                    },
-                },
-                new LineSeries
-                {
-                    Stroke = new SolidColorBrush(Colors.Tomato),
-                    Title = "Точка минимума",
-                    Fill = Brushes.Transparent,
-                    DataLabels = false,
-                    Values = new ChartValues<ObservablePoint> {new ObservablePoint(PointOfMin, MinValueOfFunction)}
-                }
-            };
-        }
+        
     }
 }

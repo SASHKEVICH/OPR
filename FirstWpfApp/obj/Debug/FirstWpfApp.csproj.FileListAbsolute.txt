@@ -43,12 +43,6 @@ C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\obj\Debug\FirstWpfApp.csproj.CopyCom
 C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\System.Drawing.Common.dll
 C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\System.ValueTuple.dll
 C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\System.ValueTuple.xml
-C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\LiveCharts.dll
-C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\LiveCharts.Wpf.dll
-C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\LiveCharts.pdb
-C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\LiveCharts.xml
-C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\LiveCharts.Wpf.pdb
-C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\LiveCharts.Wpf.xml
 C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\obj\Debug\FirstWpfApp.csproj.AssemblyReference.cache
 C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\obj\Debug\FirstWpfApp.csproj.SuggestedBindingRedirects.cache
 G:\Code\C#\OPR\FirstWpfApp\obj\Debug\FirstWpfApp.csproj.AssemblyReference.cache
@@ -75,3 +69,9 @@ G:\Code\C#\OPR\FirstWpfApp\obj\Debug\FirstWpfApp.Properties.Resources.resources
 G:\Code\C#\OPR\FirstWpfApp\obj\Debug\FirstWpfApp.csproj.GenerateResource.cache
 G:\Code\C#\OPR\FirstWpfApp\obj\Debug\FirstWpfApp.csproj.CoreCompileInputs.cache
 G:\Code\C#\OPR\FirstWpfApp\obj\Debug\FirstWpfApp.csproj.CopyComplete
+C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\OxyPlot.dll
+C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\OxyPlot.Wpf.dll
+C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\OxyPlot.Wpf.Shared.dll
+C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\OxyPlot.xml
+C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\OxyPlot.Wpf.xml
+C:\Code\FirstWpfApp\FirstWpfApp\FirstWpfApp\bin\Debug\OxyPlot.Wpf.Shared.xml
