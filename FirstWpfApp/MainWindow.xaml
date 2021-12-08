@@ -86,7 +86,7 @@
                 <DropShadowEffect Color="Black" Direction="270" Opacity="0.25"/>
             </Border.Effect>
             
-            <Grid x:Name="leftBlock" Background="White" ShowGridLines="True">
+            <Grid x:Name="leftBlock" Background="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="8.11*" />
                     <ColumnDefinition Width="83.22*" />
@@ -101,7 +101,7 @@
                     <RowDefinition Height="23.26*"/>
                 </Grid.RowDefinitions>
                 
-                <oxyplot:PlotView Grid.Row="3" Grid.Column="1" />
+                <oxyplot:PlotView Grid.Row="3" Grid.Column="1" Model="{Binding Model}"/>
                 
                 <TextBlock x:Name="MethodNameTextBlock" Grid.Column="1" Grid.Row="1">
                     Метод Золотого Сечения
@@ -121,7 +121,7 @@
                 <DropShadowEffect Color="Black" Direction="270" Opacity="0.25"/>
             </Border.Effect>
             
-            <Grid x:Name="rightBlock" Background="White" >
+            <Grid x:Name="rightBlock" Background="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="6*" />
                     <ColumnDefinition Width="88*" />
@@ -134,6 +134,7 @@
                     <RowDefinition Height="18.18*" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="17.7*" />
+                    <RowDefinition Height="2*"/>
                     <RowDefinition Height="10.62*" />
                     <RowDefinition Height="7*" />
                     <RowDefinition Height="3*" />
@@ -148,19 +149,19 @@
                     <RadioButton x:Name="FunctionRadioButton1" 
                                  IsChecked="{Binding Path=IsFirstFunction}" 
                                  GroupName="FunctionsGroup" 
-                                 Content="y=x^2" />
+                                 Content="y = x^2" />
                     <RadioButton x:Name="FunctionRadioButton2" 
                                  IsChecked="{Binding Path=IsSecondFunction}" 
                                  GroupName="FunctionsGroup" 
-                                 Content="y=x^3" />
+                                 Content="y = sin(x) + 5" />
                     <RadioButton x:Name="FunctionRadioButton3" 
                                  IsChecked="{Binding Path=IsThirdFunction}" 
                                  GroupName="FunctionsGroup" 
-                                 Content="y=x^4" />
+                                 Content="y = (15 + x)^x + 5x^2" />
                     <RadioButton x:Name="FunctionRadioButton4" 
                                  IsChecked="{Binding Path=IsFourthFunction}" 
                                  GroupName="FunctionsGroup" 
-                                 Content="y=x^5" />
+                                 Content="y = 3x - 5e" />
                 </StackPanel>
                 
                 <TextBlock x:Name="BoundsTextBlock" Grid.Row="3" Grid.Column="1">
@@ -213,8 +214,12 @@
                              Delay=500}" />
                 </Grid>
                 
+                <Separator Grid.Row="5" Grid.Column="0" />
+                <Separator Grid.Row="5" Grid.Column="1" />
+                <Separator Grid.Row="5" Grid.Column="2" />
+                
                 <!-- Блок вывода результатов -->
-                <Grid Grid.Row="5" Grid.Column="1" >
+                <Grid Grid.Row="6" Grid.Column="1" ShowGridLines="False">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="46.89*" />
                         <ColumnDefinition Width="6.89*"/>
@@ -222,7 +227,7 @@
                     </Grid.ColumnDefinitions>
                     
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="55.22*"/>
+                        <RowDefinition Height="45.22*"/>
                         <RowDefinition Height="20*"/>
                     </Grid.RowDefinitions>
                     
@@ -254,9 +259,8 @@
                                    VerticalAlignment="Center"/>
                     </Border>
                 </Grid>
-                
-                    <!-- Блок нижних кнопок -->
-                <Grid Grid.Row="6" Grid.Column="1" >
+                <!-- Блок нижних кнопок -->
+                <Grid Grid.Row="7" Grid.Column="1" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="46.89*" />
                         <ColumnDefinition Width="6.89*"/>
@@ -286,7 +290,5 @@
                 </Grid>
             </Grid>
         </Border>
-        
-        
     </Grid>
 </Window>
