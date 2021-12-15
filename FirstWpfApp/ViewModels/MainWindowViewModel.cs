@@ -118,8 +118,8 @@ namespace FirstWpfApp.ViewModels
                     X = iteration.MinPointX,
                     Type = LineAnnotationType.Vertical,
                     Color = OxyColors.Black,
-                    MaximumY = _pickedFunction(iteration.MinPointX) + 4 * _pickedFunction(iteration.MinPointX),
-                    MinimumY = _pickedFunction(iteration.MinPointX) - 4 * _pickedFunction(iteration.MinPointX)
+                    MaximumY = 5 * _pickedFunction(iteration.MinPointX) + Math.Abs(iteration.MinPointX),
+                    MinimumY = -3 * _pickedFunction(iteration.MinPointX) - Math.Abs(iteration.MinPointX),
                 };
                 await Task.Delay(100);
                 Model.Annotations.Add(iterationAnnotation);
@@ -129,11 +129,11 @@ namespace FirstWpfApp.ViewModels
                 var myArrowAnnotation = new ArrowAnnotation
                 {
                     StartPoint = startArrowPoint,
-                    EndPoint = new DataPoint(iteration.MinPointX, _pickedFunction(iteration.MinPointX)),
+                    EndPoint = new DataPoint(iteration.MinPointX, _pickedFunction(iteration.MinPointX) + Math.Abs(iteration.MinPointX)),
                     LineStyle = LineStyle.Dash,
                     Color = OxyColors.Black,
-                    HeadLength = 5.0,
-                    HeadWidth = 1.5,
+                    HeadLength = 7.0,
+                    HeadWidth = 3,
                     StrokeThickness = 1
                 };
                 await Task.Delay(100);
@@ -149,8 +149,8 @@ namespace FirstWpfApp.ViewModels
         {
             return Math.Abs(iteration.LeftBound - iteration.MinPointX) >=
                    Math.Abs(iteration.RightBound - iteration.MinPointX)
-                ? new DataPoint(iteration.LeftBound, _pickedFunction(iteration.MinPointX))
-                : new DataPoint(iteration.RightBound, _pickedFunction(iteration.MinPointX));
+                ? new DataPoint(iteration.LeftBound, _pickedFunction(iteration.MinPointX) + Math.Abs(iteration.MinPointX))
+                : new DataPoint(iteration.RightBound, _pickedFunction(iteration.MinPointX) + Math.Abs(iteration.MinPointX));
         }
 
         private void OnClearAllFieldsCommandCommandExecute(object p)

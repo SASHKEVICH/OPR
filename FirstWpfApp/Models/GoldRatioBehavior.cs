@@ -23,13 +23,13 @@ namespace FirstWpfApp.Models
             AllIterationList = new List<Iteration>();
         }
         
-        /// <summary>
+         /// <summary>
         /// Метод находит точку минимума по заданному промежутку с заданной точностью
         /// </summary>
         /// <param name="leftBound"></param>
         /// <param name="rightBound"></param>
         /// <param name="eps"></param>
-        /// <param name="func"></param>
+        /// /// <param name="func"></param>
         /// <returns></returns>
         public double FindMin()
         {
@@ -69,6 +69,6 @@ namespace FirstWpfApp.Models
 
         public double MinValue() => _func(_minPoint);
 
-        public List<Iteration> AllIterationList { get; private set; }
+        public List<Iteration> AllIterationList { get; }
     }
 }
