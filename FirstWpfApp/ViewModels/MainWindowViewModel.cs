@@ -79,6 +79,22 @@ namespace FirstWpfApp.ViewModels
                 Fill = OxyColors.Red,
                 Size = 4,
             };
+            
+            var leftBoundPoint = new PointAnnotation
+            {
+                X = LeftBound,
+                Y = _pickedFunction(LeftBound),
+                Fill = OxyColors.Green,
+                Size = 4,
+            };
+            
+            var rightBoundPoint = new PointAnnotation
+            {
+                X = RightBound,
+                Y = _pickedFunction(RightBound),
+                Fill = OxyColors.Green,
+                Size = 4,
+            };
 
             var leftBoundAnnotation = new LineAnnotation
             {
@@ -87,10 +103,6 @@ namespace FirstWpfApp.ViewModels
                 Type = LineAnnotationType.Vertical,
                 Color = OxyColors.Green,
                 StrokeThickness = 1,
-                MaximumY = _pickedFunction(LeftBound) + 
-                           _pickedFunction(_allIterationsList[0].MinPointX - _allIterationsList[0].LeftBound) + 25,
-                MinimumY = _pickedFunction(LeftBound) + 
-                           _pickedFunction(_allIterationsList[0].MinPointX - _allIterationsList[0].LeftBound) - 25,
             };
             
             var rightBoundAnnotation = new LineAnnotation
@@ -100,14 +112,12 @@ namespace FirstWpfApp.ViewModels
                 Type = LineAnnotationType.Vertical,
                 Color = OxyColors.Green,
                 StrokeThickness = 1,
-                MaximumY = _pickedFunction(RightBound) + 
-                           _pickedFunction(_allIterationsList[0].MinPointX - _allIterationsList[0].RightBound) + 25,
-                MinimumY = _pickedFunction(RightBound) + 
-                           _pickedFunction(_allIterationsList[0].MinPointX - _allIterationsList[0].RightBound) - 25,
             };
             
             Model.Annotations.Add(leftBoundAnnotation);
             Model.Annotations.Add(rightBoundAnnotation);
+            Model.Annotations.Add(leftBoundPoint);
+            Model.Annotations.Add(rightBoundPoint);
             Model.InvalidatePlot(true);
             
             foreach (var iteration in _allIterationsList)
@@ -118,10 +128,10 @@ namespace FirstWpfApp.ViewModels
                     X = iteration.MinPointX,
                     Type = LineAnnotationType.Vertical,
                     Color = OxyColors.Black,
-                    MaximumY = 5 * _pickedFunction(iteration.MinPointX) + Math.Abs(iteration.MinPointX),
-                    MinimumY = -3 * _pickedFunction(iteration.MinPointX) - Math.Abs(iteration.MinPointX),
+                    MaximumY = 5 * _pickedFunction(iteration.MinPointX) + 2 * Math.Abs(iteration.MinPointX),
+                    MinimumY = -3 * _pickedFunction(iteration.MinPointX) - 2 * Math.Abs(iteration.MinPointX),
                 };
-                await Task.Delay(100);
+                await Task.Delay(200);
                 Model.Annotations.Add(iterationAnnotation);
                 Model.InvalidatePlot(true);
                 
@@ -136,7 +146,7 @@ namespace FirstWpfApp.ViewModels
                     HeadWidth = 3,
                     StrokeThickness = 1
                 };
-                await Task.Delay(100);
+                await Task.Delay(200);
                 Model.Annotations.Add(myArrowAnnotation);
                 Model.InvalidatePlot(true);
             }
@@ -177,6 +187,22 @@ namespace FirstWpfApp.ViewModels
                 CanClearAllFieldsCommandCommandExecute);
 
             Model = new PlotModel();
+            Model.Axes.Add(new LinearAxis
+            {
+                Key = "yAxis",
+                Position = AxisPosition.Left,
+                MajorGridlineStyle = LineStyle.Dot,
+                MajorGridlineThickness = 0.5,
+                MajorGridlineColor = OxyColors.Gray,
+            });
+            Model.Axes.Add(new LinearAxis
+            {
+                Key = "xAxis",
+                Position = AxisPosition.Bottom,
+                MajorGridlineStyle = LineStyle.Dot,
+                MajorGridlineThickness = 0.5,
+                MajorGridlineColor = OxyColors.Gray,
+            });
             Model.Series.Add(new FunctionSeries(Math.Sin, 0, 1, 0.001));
         }
         
